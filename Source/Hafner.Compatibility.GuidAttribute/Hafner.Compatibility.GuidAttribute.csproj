@@ -32,8 +32,8 @@
     <!--<PackageIcon>ToBeDefined.png</PackageIcon>-->
     <PackageTags>GuidAttribute System.Runtime.InteropServices.GuidAttribute Hafner.Compatibility.GuidAttribute</PackageTags>
     <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
-    <PackageProjectUrl>https://github.com/HugoRoss/Hafner.Collections</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/HugoRoss/Hafner.Collections</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/HugoRoss/Hafner.Compatibility.GuidAttribute</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/HugoRoss/Hafner.Compatibility.GuidAttribute</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <PropertyGroup Condition="$(ConfigurationsThatPublish.Contains('|$(Configuration)|'))">
