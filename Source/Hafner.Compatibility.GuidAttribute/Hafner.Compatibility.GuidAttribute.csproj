@@ -22,11 +22,11 @@
     <!--    1.2.3  =>  1.2.4  if no interface changes have been performed (patch, bug-fix) -->
     <!--    1.2.3  =>  1.3.0  if new interfaces have been added (feature release) -->
     <!--    1.2.3  =>  2.0.0  if existing interfaces have been modified (breaking changes) -->
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <!-- Set to <major>.<minor>.0.0 of the <Version> element -->
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <!-- Set to <major>.<minor>.<patch>.0 of the <Version> element -->
-    <FileVersion>1.0.0.0</FileVersion>
+    <FileVersion>1.0.1.0</FileVersion>
     <Copyright>Copyright (C) 2021 by Christoph Hafner</Copyright>
     <Description>Defines the System.Runtime.InteropServices.GuidAttribute for frameworks that do not include it, namely .NET Standard 1.0.</Description>
     <!--<PackageIcon>ToBeDefined.png</PackageIcon>-->
@@ -55,9 +55,9 @@
     <Compile Include="Full Types Framework Specific\**\GuidAttribute.cs" />
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="@ECHO OFF&#xD;&#xA;&#xD;&#xA;REM Delete the NuGet package on a publishing build.&#xD;&#xA;&#xD;&#xA;PUSHD &quot;$(ProjectDir)&quot;&#xD;&#xA;SETLOCAL&#xD;&#xA;&#xD;&#xA;IF /I &quot;$(ConfigurationName)&quot; NEQ &quot;NuGet&quot; GOTO EOF&#xD;&#xA;IF /I &quot;$(TargetFramework)&quot; NEQ &quot;Net6.0&quot; GOTO EOF&#xD;&#xA;&#xD;&#xA;ECHO Deleting old NuGet packages...&#xD;&#xA;DEL &quot;$(ProjectDir)*.nupkg&quot; /S /Q&#xD;&#xA;&#xD;&#xA;:EOF&#xD;&#xA;ENDLOCAL&#xD;&#xA;POPD" />
+    <Exec Command="@ECHO OFF&#xD;&#xA;&#xD;&#xA;REM Change to project folder&#xD;&#xA;PUSHD &quot;$(ProjectDir)&quot;&#xD;&#xA;&#xD;&#xA;IF /I &quot;$(ConfigurationName)&quot; NEQ &quot;NuGet&quot; GOTO EOF&#xD;&#xA;IF /I &quot;$(TargetFramework)&quot; NEQ &quot;Net6.0&quot; GOTO EOF&#xD;&#xA;&#xD;&#xA;ECHO Deleting old NuGet packages...&#xD;&#xA;DEL &quot;$(ProjectDir)*.nupkg&quot; /S /Q&#xD;&#xA;&#xD;&#xA;:EOF&#xD;&#xA;" />
   </Target>
   <Target Name="PostPackaging" AfterTargets="Pack" Condition="'$(Configuration)' == 'NuGet'">
-    <Exec Command="@ECHO OFF&#xD;&#xA;@ECHO Here comes the NuGet push command...&#xD;&#xA;" />
+    <Exec Command="@ECHO OFF&#xD;&#xA;REM Publish the NuGet package&#xD;&#xA;FOR /R %25%25a IN (*.nupkg) DO NUGET push %25%25a -Source https://api.nuget.org/v3/index.json&#xD;&#xA;&#xD;&#xA;" />
   </Target>
 </Project>
