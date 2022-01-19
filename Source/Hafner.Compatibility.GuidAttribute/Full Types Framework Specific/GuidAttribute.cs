@@ -14,8 +14,6 @@
 
 namespace System.Runtime.InteropServices;
 
-using System;
-
 /// <summary>
 /// Supplies an explicit System.Guid when an automatic GUID is undesirable.
 /// </summary>
@@ -23,9 +21,7 @@ using System;
 [ComVisible(true)]
 public sealed class GuidAttribute : Attribute {
 
-    /// <summary>
-    /// Initializes a new instance of the System.Runtime.InteropServices.GuidAttribute class with the specified GUID.
-    /// </summary>
+    /// <summary>Initializes a new instance of the System.Runtime.InteropServices.GuidAttribute class with the specified GUID.</summary>
     /// <param name="guid">The System.Guid to be assigned.</param>
     public GuidAttribute(string guid) {
         Value = guid;

@@ -22,15 +22,15 @@
     <!--    1.2.3  =>  1.2.4  if no interface changes have been performed (patch, bug-fix) -->
     <!--    1.2.3  =>  1.3.0  if new interfaces have been added (feature release) -->
     <!--    1.2.3  =>  2.0.0  if existing interfaces have been modified (breaking changes) -->
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <!-- Set to <major>.<minor>.0.0 of the <Version> element -->
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <!-- Set to <major>.<minor>.<patch>.0 of the <Version> element -->
-    <FileVersion>1.0.1.0</FileVersion>
-    <Copyright>Copyright (C) 2021 by Christoph Hafner</Copyright>
+    <FileVersion>1.0.2.0</FileVersion>
+    <Copyright>Copyright (C) 2021 - 2022 by Christoph Hafner</Copyright>
     <Description>Defines the System.Runtime.InteropServices.GuidAttribute for frameworks that do not include it, namely .NET Standard 1.0.</Description>
     <!--<PackageIcon>ToBeDefined.png</PackageIcon>-->
-    <PackageTags>GuidAttribute System.Runtime.InteropServices.GuidAttribute Hafner.Compatibility.GuidAttribute</PackageTags>
+    <PackageTags>GuidAttribute System.Runtime.InteropServices.GuidAttribute Hafner.Compatibility.GuidAttribute Guid Attribute</PackageTags>
     <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/HugoRoss/Hafner.Compatibility.GuidAttribute</PackageProjectUrl>
     <RepositoryUrl>https://github.com/HugoRoss/Hafner.Compatibility.GuidAttribute</RepositoryUrl>
@@ -43,12 +43,8 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Partial Types Framework Specific\**\*.cs" />
-    <Content Include="Partial Types Framework Specific\**\*.cs" />
     <Compile Remove="Full Types Framework Specific\**\*.cs" />
     <Content Include="Full Types Framework Specific\**\*.cs" />
-    <None Remove="**\_ReadMe.md" />
-    <Content Include="**\_ReadMe.md" />
   </ItemGroup>
   <ItemGroup Condition="$(FrameworksLackingGuidAttribute.Contains('|$(TargetFramework)|'))">
     <Content Remove="Full Types Framework Specific\**\GuidAttribute.cs" />
