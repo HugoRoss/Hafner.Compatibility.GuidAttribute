@@ -8,10 +8,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C37D82B0-3230-4F8E-B889-ACE6979EC7D2}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		..\ReadMe.md = ..\ReadMe.md
+		..\LICENSE.md = ..\LICENSE.md
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hafner.Compatibility.GuidAttribute.CompileTests", "Hafner.Compatibility.GuidAttribute.CompileTests\Hafner.Compatibility.GuidAttribute.CompileTests.csproj", "{0B1A20B9-D2E8-4EE9-B7CD-D20A1C3F121E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hafner.Compatibility.GuidAttribute.CompileTests", "Hafner.Compatibility.GuidAttribute.CompileTests\Hafner.Compatibility.GuidAttribute.CompileTests.csproj", "{0B1A20B9-D2E8-4EE9-B7CD-D20A1C3F121E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
