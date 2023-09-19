@@ -7,29 +7,27 @@ For all the other supported frameworks the assembly is only an empty shell.
 
 ### Multi-Targeting Project Structure
 
-This multi-targeting project is structured into the following 4 folders (whereby empty folders may be omitted):
+This multi-targeting project uses the following structure to represent the 4 different kind of source files (empty folders are omitted):
 
-| Subfolder                           | Description                                                                                                                  | Project Included  |
-|:------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------|:-----------------:|
-| `Full Types Framework Specific`    | Normal types that are only needed in a subset of all the supported frameworks.                                               | only specific FWs |
-| `Partial Types Framework Agnostic` | Partial classes/interfaces that contain the common code that is idential for all the supported frameworks.                   | yes               |
-| `Full Types Framework Agnostic`    | Normal types that are identical for all the supported frameworks.                                                            | yes               |
-| `Partial Types Framework Specific` | Partial classes/interfaces that contain the framework specific implementations for a subset of all the supported frameworks. | only specific FWs |
+| Source File Kind                 | Subfolder                        | Description                                                                                                              | Project Included        |
+|:---------------------------------|:---------------------------------|:-------------------------------------------------------------------------------------------------------------------------|:-----------------------:|
+| Full Types Framework Agnostic    | \                                | Normal types that are identical for all supported frameworks.                                                            | always                  |
+| Full Types Framework Specific    | \SpecificFrameworks              | Normal types that are only needed in a subset of the supported frameworks.                                               | only certain frameworks |
+| Partial Types Framework Agnostic | \PartialTypes                    | Partial classes/interfaces that contain the common code that is idential for all the supported frameworks.               | always                  |
+| Partial Types Framework Specific | \SpecificFrameworks\PartialTypes | Partial classes/interfaces that contain the framework specific implementations for a subset of the supported frameworks. | only certain frameworks |
 
-The `* Types Framework Specific` folders are excluded from normal build in the project file (`*.csproj`) and only included for the according target frameworks.
+The framework specific folders are excluded from normal build in the project file (`*.csproj`) and only included for the according target frameworks.
 
 Here a sample of the relevant elements in the project file (`*.csproj`):
 
-      <PropertyGroup>
-        <FrameworkLackingExtensionMethods>|net20|net30|</FrameworkLackingExtensionMethods>
-      </PropertyGroup>
-      <ItemGroup>
-        <Compile Remove="Partial Types Framework Specific\**\*.cs" />
-        <Content Include="Partial Types Framework Specific\**\*.cs" />
-        <Compile Remove="Full Types Framework Specific\**\*.cs" />
-        <Content Include="Full Types Framework Specific\**\*.cs" />
-      </ItemGroup>
-      <ItemGroup Condition="$(FrameworkLackingExtensionMethods.Contains('|$(TargetFramework)|'))">
-        <Content Remove="Full Types Framework Specific\**\ExtensionAttribute.cs" />
-        <Compile Include="Full Types Framework Specific\**\ExtensionAttribute.cs" />
-      </ItemGroup>
+    <PropertyGroup>
+      <FrameworksLackingGuidAttribute>|netstandard1.0|</FrameworksLackingGuidAttribute>
+    </PropertyGroup>
+    <ItemGroup>
+      <Compile Remove="SpecificFrameworks\**\*.cs" />
+      <None Include="SpecificFrameworks\**\*.cs" />
+    </ItemGroup>
+    <ItemGroup Condition="$(FrameworksLackingGuidAttribute.Contains('|$(TargetFramework)|'))">
+      <None Remove="SpecificFrameworks\**\*.cs" />
+      <Compile Include="SpecificFrameworks\**\*.cs" />
+    </ItemGroup>
