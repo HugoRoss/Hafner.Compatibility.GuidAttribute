@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net8.0;net7.0;net6.0;net5.0;netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1;netcoreapp2.0;netcoreapp1.1;netcoreapp1.0;netstandard2.1;netstandard2.0;netstandard1.6;netstandard1.5;netstandard1.4;netstandard1.3;netstandard1.2;netstandard1.1;netstandard1.0;net481;net48;net472;net471;net47;net462;net461;net46;net452;net451;net45;net403;net40;net35;net30;net20</TargetFrameworks>
-    <FrameworksTemplate>|net20|net30|net35|net40|net403|net45|net451|net452|net46|net461|net462|net47|net471|net472|net48|net481|netcoreapp1.0|netcoreapp1.1|netcoreapp2.0|netcoreapp2.1|netcoreapp2.2|netcoreapp3.0|netcoreapp3.1|net5.0|net6.0|net7.0|net8.0|netstandard1.0|netstandard1.1|netstandard1.2|netstandard1.3|netstandard1.4|netstandard1.5|netstandard1.6|netstandard2.0|netstandard2.1|</FrameworksTemplate>
     <FrameworksLackingGuidAttribute>|netstandard1.0|</FrameworksLackingGuidAttribute>
     <Configurations>Debug;Release;NuGet</Configurations>
     <ConfigurationsThatPublish>|NuGet|</ConfigurationsThatPublish>
@@ -25,18 +24,19 @@
     <!--    1.2.3.0  =>  1.2.4.0  if no interface changes have been performed (patch, bug-fix) -->
     <!--    1.2.3.0  =>  1.3.0.0  if new interfaces have been added (feature release) -->
     <!--    1.2.3.0  =>  2.0.0.0  if existing interfaces have been modified (breaking changes) -->
-    <Version>1.0.6.0</Version>
+    <Version>1.0.7.0</Version>
     <!-- Set to <major>.<minor>.0.0 of the <Version> element -->
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <!-- Set to <major>.<minor>.<patch>.0 of the <Version> element -->
-    <FileVersion>1.0.6.0</FileVersion>
-    <AssemblyInformationalVersion>1.0.6.0</AssemblyInformationalVersion>
+    <FileVersion>1.0.7.0</FileVersion>
+    <!-- Set to <major>.<minor>.<patch>.0 of the <Version> element -->
+    <AssemblyInformationalVersion>1.0.7.0</AssemblyInformationalVersion>
     <Copyright>Copyright (C) 2021 - 2023 by Christoph Hafner</Copyright>
     <Description>Defines the System.Runtime.InteropServices.GuidAttribute for frameworks that do not include it, namely .NET Standard 1.0.</Description>
-    <PackageIcon>PackageIcon.png</PackageIcon>
-    <PackageReadmeFile>PackageReadMe.md</PackageReadmeFile>
+    <PackageIcon>resources\PackageIcon.png</PackageIcon>
+    <PackageReadmeFile>resources\PackageReadMe.md</PackageReadmeFile>
     <PackageTags>GuidAttribute System.Runtime.InteropServices.GuidAttribute Hafner.Compatibility.GuidAttribute Guid Attribute</PackageTags>
-    <PackageReleaseNotes>ReadMe file 'PackageReadMe.md' added.</PackageReleaseNotes>
+    <PackageReleaseNotes>Build events moved to batch files, resources (icon, readme) packed in resource folder.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/HugoRoss/Hafner.Compatibility.GuidAttribute</PackageProjectUrl>
     <RepositoryUrl>https://github.com/HugoRoss/Hafner.Compatibility.GuidAttribute</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -56,13 +56,16 @@
     <Compile Include="SpecificFrameworks\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\BuildTools\Resources\PackageReadMe.md" Pack="true" PackagePath="\" Visible="false" />
-    <None Include="..\..\BuildTools\Resources\PackageIcon.png" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="..\..\BuildTools\Resources\PackageReadMe.md" Pack="true" PackagePath="\resources" Visible="false" />
+    <None Include="..\..\BuildTools\Resources\PackageIcon.png" Pack="true" PackagePath="\resources" Visible="false" />
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="@ECHO OFF&#xD;&#xA;&#xD;&#xA;REM Change to project folder&#xD;&#xA;PUSHD &quot;$(ProjectDir)&quot;&#xD;&#xA;&#xD;&#xA;IF /I &quot;$(ConfigurationName)&quot; NEQ &quot;NuGet&quot; GOTO EOF&#xD;&#xA;IF /I &quot;$(TargetFramework)&quot; NEQ &quot;Net6.0&quot; GOTO EOF&#xD;&#xA;&#xD;&#xA;ECHO Deleting old NuGet packages...&#xD;&#xA;DEL &quot;$(ProjectDir)*.nupkg&quot; /S /Q&#xD;&#xA;&#xD;&#xA;:EOF&#xD;&#xA;" />
+    <Exec Command="@ECHO OFF&#xD;&#xA;CALL &quot;$(ProjectDir)BuildEvents\PreBuild.bat&quot; &quot;$(ConfigurationName)&quot; &quot;$(TargetFramework)&quot;&#xD;&#xA;" />
+  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="@ECHO OFF&#xD;&#xA;CALL &quot;$(ProjectDir)BuildEvents\PostBuild.bat&quot; &quot;$(ConfigurationName)&quot; &quot;$(TargetFramework)&quot;&#xD;&#xA;" />
   </Target>
   <Target Name="PostPackaging" AfterTargets="Pack" Condition="'$(Configuration)' == 'NuGet'">
-    <Exec Command="@ECHO OFF&#xD;&#xA;REM Publish the NuGet package&#xD;&#xA;FOR /R %25%25a IN (*.nupkg) DO NUGET push %25%25a -Source https://api.nuget.org/v3/index.json&#xD;&#xA;&#xD;&#xA;" />
+    <Exec Command="@ECHO OFF&#xD;&#xA;CALL &quot;$(ProjectDir)BuildEvents\PostPackage.bat&quot; &quot;NuGet&quot;&#xD;&#xA;" />
   </Target>
 </Project>
